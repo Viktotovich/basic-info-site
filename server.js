@@ -1,22 +1,11 @@
-const http = require("http");
-const fs = require("fs");
-const url = require("url");
+const express = require("express");
+const app = express();
+const PORT = 5173;
 
-http
-  .createServer(function (req, res) {
-    const q = url.parse(req.url, true);
-    let filename = "." + q.pathname;
+app.get("/", (req, res) => {
+  res.send("index.html");
+});
 
-    fs.readFile(filename, function (err, data) {
-      if (err) {
-        res.writeHead(404, { "Content-Type": "text/html" });
-        res.write("<h1>404 Not Found </h1>");
-        return res.end();
-      }
-
-      res.writeHead(200, { "Content-Type": "text/html" });
-      res.write(data);
-      return res.end();
-    });
-  })
-  .listen(8080);
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}`);
+});
